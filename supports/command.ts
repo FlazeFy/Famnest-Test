@@ -19,3 +19,21 @@ Cypress.Commands.add("expectDefaultResponseProps", (res: any, code: number, mess
     expect(res.status).to.eq(code)
     expect(res.body.message).to.eq(message)
 })
+
+/**
+ * Custom command to get auth token from login API
+ * @param role define its that user / admin 
+ */
+Cypress.Commands.add("useLogin", (role = "user") => {
+    const credentials = Cypress.env(role)
+
+    return cy.request("POST", "/api/v1/auths/login", {
+        email: credentials.email,
+        password: credentials.password
+    })
+    .then((res) => {
+        const token = res.body.data.token
+        expect(token).to.be.a("string")
+        return token
+    })
+})

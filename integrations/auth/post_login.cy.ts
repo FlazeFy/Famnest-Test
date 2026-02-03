@@ -1,7 +1,7 @@
 describe("Auth API - POST Login", () => {
     const userData = Cypress.env("user")
     const adminData = Cypress.env("admin")
-    const url = "/api/auth/login"
+    const url = "/api/v1/auths/login"
 
     describe("Success cases", () => {
         it("should login successfully with user account", () => {
@@ -10,6 +10,7 @@ describe("Auth API - POST Login", () => {
                 password: userData.password
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 200, 'Login successful')
+                expect(res.body.data.role).to.eq('user')
                 cy.expectKeyExist(res.body.data, ["token", "name", "email", "role"])
             })
         })
@@ -19,6 +20,7 @@ describe("Auth API - POST Login", () => {
                 password: adminData.password
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 200, 'Login successful')
+                expect(res.body.data.role).to.eq('admin')
                 cy.expectKeyExist(res.body.data, ["token", "name", "email", "role"])
             })
         })
