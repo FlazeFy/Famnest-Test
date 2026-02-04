@@ -4,7 +4,7 @@ module.exports = defineConfig({
     e2e: {
         // baseUrl : 'https://famnest.leonardhors.com',
         // For Backend Apps
-        baseUrl: 'http://localhost:5555/',
+        baseUrl: 'http://localhost:7777/',
         // For Frontend Apps
         // baseUrl: 'http://localhost:3000/',
         specPattern : ["integrations"],

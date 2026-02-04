@@ -1,6 +1,6 @@
-describe("Feedback API - POST Feedback", () => {
+describe("Allergic API - POST Allergic", () => {
     const loremData = Cypress.env("lorem")
-    const url = "/api/v1/feedbacks"
+    const url = "/api/v1/allergics"
     let userToken 
     let adminToken
 
@@ -15,7 +15,7 @@ describe("Feedback API - POST Feedback", () => {
     })
 
     describe("Success cases", () => {
-        it("should send feedback successfully with valid payload", () => {
+        it("should send allergic successfully with valid payload", () => {
             cy.request({
                 method: "POST", 
                 url, 
@@ -23,17 +23,33 @@ describe("Feedback API - POST Feedback", () => {
                     Authorization: `Bearer ${userToken}`
                 },
                 body: {
-                    feedback_rate: 9,
-                    feedback_body: loremData.short
+                    allergic_context: loremData.short,
+                    allergic_desc: loremData.short
                 }
             }).then((res) => {
-                cy.expectDefaultResponseProps(res, 201, 'Feedback sended')
+                cy.expectDefaultResponseProps(res, 201, 'Allergic created')
             })
         })
     })
   
     describe("Failed cases", () => {
-        it("should fail if the feedback is sended by admin", () => {
+        it("should fail if the allergic is already exist", () => {
+            cy.request({
+                method: "POST",
+                url,
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                },
+                body: { 
+                    allergic_context: loremData.short,
+                    allergic_desc: loremData.short 
+                },
+                failOnStatusCode: false
+            }).then((res) => {
+                cy.expectDefaultResponseProps(res, 409, 'Allergic is already exist')
+            })
+        })
+        it("should fail if the allergic is sended by admin", () => {
             cy.request({
                 method: "POST",
                 url,
@@ -41,8 +57,8 @@ describe("Feedback API - POST Feedback", () => {
                     Authorization: `Bearer ${adminToken}`
                 },
                 body: { 
-                    feedback_rate: 9,
-                    feedback_body: loremData.short 
+                    allergic_context: loremData.short,
+                    allergic_desc: loremData.short 
                 },
                 failOnStatusCode: false
             }).then((res) => {
@@ -57,14 +73,14 @@ describe("Feedback API - POST Feedback", () => {
                     Authorization: `Bearer ${userToken}`
                 },
                 body: { 
-                    feedback_rate: 9, 
-                    feedback_body: loremData.medium
+                    allergic_context: loremData.short, 
+                    allergic_desc: loremData.medium
                 },
                 failOnStatusCode: false
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 422, 'Validation error')
-                cy.expectKeyExist(res.body.data, ["feedback_body"])
-                expect(res.body.data.feedback_body).to.eq("feedback_body must be at most 255 characters")
+                cy.expectKeyExist(res.body.data, ["allergic_desc"])
+                expect(res.body.data.allergic_desc).to.eq("allergic_desc must be at most 255 characters")
             })
         })
         it("should fail with failed validation : required payload's is empty", () => {
@@ -75,13 +91,13 @@ describe("Feedback API - POST Feedback", () => {
                     Authorization: `Bearer ${userToken}`
                 },
                 body: { 
-                    feedback_rate: 9
+                    allergic_desc: loremData.short
                 },
                 failOnStatusCode: false
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 422, 'Validation error')
-                cy.expectKeyExist(res.body.data, ["feedback_body"])
-                expect(res.body.data.feedback_body).to.eq("feedback_body is required")
+                cy.expectKeyExist(res.body.data, ["allergic_context"])
+                expect(res.body.data.allergic_context).to.eq("allergic_context is required")
             })
         })
         it("should fail with failed validation : empty request body", () => {

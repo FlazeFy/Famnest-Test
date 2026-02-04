@@ -31,7 +31,7 @@ describe("Question API - POST Question", () => {
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 422, 'Validation error')
                 cy.expectKeyExist(res.body.data, ["question"])
-                cy.expect(res.body.data.question).to.eq("question must be at most 255 characters")
+                expect(res.body.data.question).to.eq("question must be at most 255 characters")
             })
         })
         it("should fail with failed validation : question's email is not a valid email", () => {
@@ -46,7 +46,7 @@ describe("Question API - POST Question", () => {
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 422, 'Validation error')
                 cy.expectKeyExist(res.body.data, ["email"])
-                cy.expect(res.body.data.email).to.eq("email must be a valid gmail address")
+                expect(res.body.data.email).to.eq("email must be a valid gmail address")
             })
         })
         it("should fail with failed validation : required payload's is empty", () => {
@@ -60,7 +60,7 @@ describe("Question API - POST Question", () => {
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 422, 'Validation error')
                 cy.expectKeyExist(res.body.data, ["email"])
-                cy.expect(res.body.data.email).to.eq("email is required")
+                expect(res.body.data.email).to.eq("email is required")
             })
         })
         it("should fail with failed validation : empty request body", () => {
@@ -71,7 +71,7 @@ describe("Question API - POST Question", () => {
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 422, 'Validation error')
                 cy.expectKeyExist(res.body.data, ["body"])
-                cy.expect(res.body.data.body).to.eq("Request body is required")
+                expect(res.body.data.body).to.eq("Request body is required")
             })
         })
     })
