@@ -1,9 +1,9 @@
 describe("Meal API - POST Meal", () => {
     const loremData = Cypress.env("lorem")
     const url = "/api/v1/meals"
-    let userToken 
-    let userWithFamilyToken
-    let adminToken
+    let userToken: any
+    let userWithFamilyToken: any
+    let adminToken: any
 
     before(() => {
         cy.useLogin("user").then((token: string) => {

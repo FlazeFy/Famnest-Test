@@ -1,8 +1,8 @@
 describe("Dictionary API - POST Dictionary", () => {
     const loremData = Cypress.env("lorem")
     const url = "/api/v1/dictionaries"
-    let userToken 
-    let adminToken
+    let userToken: any 
+    let adminToken: any
 
     before(() => {
         cy.useLogin("user").then((token: string) => {

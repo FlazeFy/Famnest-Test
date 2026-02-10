@@ -1,8 +1,8 @@
 describe("Feedback API - POST Feedback", () => {
     const loremData = Cypress.env("lorem")
     const url = "/api/v1/feedbacks"
-    let userToken 
-    let adminToken
+    let userToken: any
+    let adminToken: any
 
     before(() => {
         cy.useLogin("user").then((token: string) => {

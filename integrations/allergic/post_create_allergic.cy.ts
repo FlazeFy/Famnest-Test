@@ -1,8 +1,8 @@
 describe("Allergic API - POST Allergic", () => {
     const loremData = Cypress.env("lorem")
     const url = "/api/v1/allergics"
-    let userToken 
-    let adminToken
+    let userToken: any 
+    let adminToken: any
 
     before(() => {
         cy.useLogin("user").then((token: string) => {
