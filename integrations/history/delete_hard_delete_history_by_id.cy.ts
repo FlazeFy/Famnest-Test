@@ -1,5 +1,5 @@
-describe("Dictionary API - DELETE Dictionary By Id", () => {
-    const url = "/api/v1/dictionaries"
+describe("History API - DELETE History By Id", () => {
+    const url = "/api/v1/histories"
     const id = Cypress.env("id")
     let userToken: any 
     let adminToken: any
@@ -14,28 +14,28 @@ describe("Dictionary API - DELETE Dictionary By Id", () => {
     })
 
     describe("Failed cases", () => {
-        it("should fail if the dictionary is deleted by user", () => {
+        it("should fail if the history is deleted by admin", () => {
             cy.request({
                 method: "DELETE",
-                url: `${url}/${id.dictionary}`, 
+                url: `${url}/${id.history}`, 
                 headers: {
-                    Authorization: `Bearer ${userToken}`
+                    Authorization: `Bearer ${adminToken}`
                 },
                 failOnStatusCode: false
             }).then((res) => {
                 cy.expectDefaultResponseProps(res, 403, 'Your role is not authorized')
             })
         })
-        it("should fail if the dictionary not found", () => {
+        it("should fail if the history not found", () => {
             cy.request({
                 method: "DELETE",
                 url: `${url}/${id.not_found}`, 
                 headers: {
-                    Authorization: `Bearer ${adminToken}`
+                    Authorization: `Bearer ${userToken}`
                 },
                 failOnStatusCode: false
             }).then((res) => {
-                cy.expectDefaultResponseProps(res, 404, 'Dictionary not found')
+                cy.expectDefaultResponseProps(res, 404, 'History not found')
             })
         })
         it("should fail with failed validation : id is not valid uuid", () => {
@@ -43,7 +43,7 @@ describe("Dictionary API - DELETE Dictionary By Id", () => {
                 method: "DELETE",
                 url: `${url}/${id.invalid}`, 
                 headers: {
-                    Authorization: `Bearer ${adminToken}`
+                    Authorization: `Bearer ${userToken}`
                 },
                 failOnStatusCode: false
             }).then((res) => {
@@ -55,15 +55,15 @@ describe("Dictionary API - DELETE Dictionary By Id", () => {
     })
 
     describe("Success cases", () => {
-        it("should delete dictionary successfully with valid id", () => {
+        it("should delete history successfully with valid id", () => {
             cy.request({
                 method: "DELETE", 
-                url: `${url}/${id.dictionary}`, 
+                url: `${url}/${id.history}`, 
                 headers: {
-                    Authorization: `Bearer ${adminToken}`
+                    Authorization: `Bearer ${userToken}`
                 }
             }).then((res) => {
-                cy.expectDefaultResponseProps(res, 200, 'Delete dictionary successful')
+                cy.expectDefaultResponseProps(res, 200, 'Delete history successful')
             })
         })
     })
