@@ -6,7 +6,6 @@ describe("Feedback API - POST Feedback", () => {
 
     before(() => {
         cy.useLogin("user").then((token: string) => {
-            console.log(token)
             userToken = token
         })
         cy.useLogin("admin").then((token: string) => {
